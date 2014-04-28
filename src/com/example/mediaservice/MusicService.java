@@ -1,5 +1,7 @@
 package com.example.mediaservice;
 
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -137,6 +139,7 @@ public class MusicService extends Service
 
 	@Override
 	public void pause() {
+		stopForeground(false);
 		if(mPlayer != null && isPlaying())
 		{
 			mPlayer.pause();
@@ -152,6 +155,7 @@ public class MusicService extends Service
 	{
 		if(isPlaying() == false)
 		{
+			startForeground(1123321, null);
 			seekTo(getCurrentPosition());
 			start();
 		}
@@ -160,7 +164,13 @@ public class MusicService extends Service
 	@Override
 	public void start() {
 		if (mPlayer == null) create();
-		
+		Notification notification = new Notification(R.drawable.ic_launcher, "Showing a song here",
+		        System.currentTimeMillis());
+		Intent notificationIntent = new Intent(this, MusicService.class);
+		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+		notification.setLatestEventInfo(this, "You are now playing a song",
+		        "The song is now playing", pendingIntent);
+		startForeground(1123321, notification);
 		Thread th = new Thread(new Runnable() {
 			@Override
 			public void run()
@@ -172,6 +182,7 @@ public class MusicService extends Service
 	}
 	
 	public void stop() {
+		stopForeground(true);
 		mPlayer.stop();
 		mPlayer.release();
 		mPlayer = null;

@@ -1,0 +1,11 @@
+<resources>
+
+    <string name="app_name">ForgroundService Example</string>
+    <string name="title_activity_main">ForgroundService</string>
+    <string name="lbl_start_service">Start service</string>
+    <string name="lbl_service_status">Service status:</string>
+    <string name="lbl_running">RUNNING</string>
+    <string name="lbl_finished">FINISHED</string>
+    <string name="lbl_not_running">NOT RUNNING</string>
+
+</resources>
